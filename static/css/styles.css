@@ -1,0 +1,197 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+    color: #333;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .logo span {
+    color: #a43753;
+  }
+
+  nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #a43753;
+    font-weight: 500;
+  }
+  nav .login {
+    font-weight: bold;
+  }
+  nav .icon {
+    font-size: 20px;
+    margin-left: 5px;
+  }
+
+  .hero {
+    position: relative;
+    background-color: white;
+  }
+
+  .hero-inner {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+  }
+
+  .left {
+    background-color: #a43753;
+    color: white;
+    flex: 1;
+    padding: 60px 20px 30px 40px;
+    margin-bottom: -150px; /* this causes the overlap */
+    z-index: 2;
+    position: relative;
+    margin-left: 80px;
+    margin-right: 40px;
+  }
+
+  .left h1 {
+    font-size: 100px;
+    font-weight: bold;
+    line-height: 1.3;
+  }
+  .left p {
+    margin: 40px 0;
+    font-size: 28px;
+  }
+  .buttons {
+    display: flex;
+    gap: 20px;
+  }
+  .btn {
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .btn.dark {
+    background-color: black;
+    color: white;
+  }
+  .btn.light {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+  }
+  .right {
+  flex: 1;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+.right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+}
+
+.services {
+  background-color: #1e1e1e;
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 100px;
+  padding-left: 600px;
+  padding-right: 40px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+
+}
+  .services h2 {
+    margin-bottom: 30px;
+    font-size: 24px;
+
+  }
+  .service-list {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+  }
+  .service-item img {
+    width: 80px;
+    height: 80px;
+  }
+  .service-item p {
+    margin-top: 10px;
+  }
+
+  .profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background-color: #fff;
+  }
+
+  .profile-card {
+    display: flex;
+    background-color: #a43753;
+    color: white;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 1000px;
+    width: 100%;
+    gap: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile-image img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #fff;
+  }
+
+  .profile-info {
+    flex: 1;
+  }
+
+  .profile-info h2 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-size: 2.5em;
+  }
+
+  .profile-info p {
+    margin: 0.5em 0;
+    font-size: 18px;
+  }
+
+  /* Footer */
+  footer.footer {
+    text-align: center;
+    padding: 30px 20px;
+    background-color: #1e1e1e;
+    color: white;
+    font-size: 14px;
+  }
+
+  .footer .socials a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+
+  .footer .socials a:hover {
+    text-decoration: underline;
+  }

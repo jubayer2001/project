@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MomentsMaker</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo"><span>Moments</span>Maker</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Services</a>
+      <a href="#">Help & Support</a>
+      <a href="#">About Us</a>
+      {% if user.is_authenticated %}
+        <span class="login">{{ user.last_name }}</span>
+        <a href="{% url 'logout' %}" class="login">Logout</a>
+        <span class="icon">👤</span>
+      {% else %}
+        <a href="{% url 'login' %}" class="login">Login</a>
+        <span class="icon">👤</span>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="left">
+          <h1>WHAT DO YOU PLAN?<br>WE WILL LEND YOU A HAND</h1>
+          <p>Plan a satisfying and unforgettable event</p>
+          <div class="buttons">
+            <button class="btn dark">Get Started</button>
+            <button class="btn light">Learn More</button>
+          </div>
+        </div>
+        <div class="right">
+          <img src="{% static 'images/event.jpg' %}" alt="Event" />
+        </div>
+      </div>
+    </section>
+
+    <section class="services">
+      <h2>SERVICES</h2>
+      <div class="service-list">
+        <div class="service-item">
+          <img src="{% static 'images/caterer.png' %}" alt="Caterer"/>
+          <p>Caterer</p>
+        </div>
+        <div class="service-item">
+          <img src="{% static 'images/decorator.png' %}" alt="Decorator"/>
+          <p>Decorator</p>
+        </div>
+        <div class="service-item">
+          <img src="{% static 'images/photographer.png' %}" alt="Photographer"/>
+          <p>Photographer</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

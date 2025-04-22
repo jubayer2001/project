@@ -5,41 +5,67 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Register - MomentsMaker</title>
-  <link rel="stylesheet" href="{% static 'css/register.css' %} " />
+  <link rel="stylesheet" href="{% static 'css/register.css' %}" />
 </head>
 <body>
-  <div class="container">
+  <div class="register-container">
     <div class="logo">
-        <span class="highlight">Moments</span>Maker
-      </div>
-  <div class="register-box">
-    <h2>Create Account</h2>
-    <form method="POST">
-  {% csrf_token %}
-  <input type="text" name="first_name" placeholder="First Name" required />
-  <input type="text" name="last_name" placeholder="Last Name" required />
-  <input type="email" name="email" placeholder="Email" required />
-  <input type="password" name="password" placeholder="Password" required />
-  <input type="password" name="confirm_password" placeholder="Confirm Password" required />
-  <select name="role" required>
-    <option value="" disabled selected>Select Role</option>
-    <option value="planner">Event Planner</option>
-    <option value="provider">Service Provider</option>
-  </select>
-  <button type="submit">Register</button>
-</form>
-
-    <p class="login-link">Already have an account? <a href="{% url 'login' %} " class = "login">Login here</a></p>
+      <span class="highlight">Moments</span>Maker
+    </div>
+    <div class="register-box">
+      <h2>Create Account</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="text" name="first_name" placeholder="First Name" required />
+        </div>
+        <div class="form-group">
+          <input type="text" name="last_name" placeholder="Last Name" required />
+        </div>
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Email" required />
+        </div>
+        <div class="form-group">
+          <input type="password" name="password" id="password" placeholder="Password" required />
+        </div>
+        <div class="form-group">
+          <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required />
+        </div>
+        <div class="form-group show-password-container">
+          <label>
+            <input type="checkbox" onclick="togglePassword()"> Show Password
+          </label>
+        </div>
+        <div class="form-group">
+          <select name="role" required>
+            <option value="" disabled selected>Select Role</option>
+            <option value="planner">Event Planner</option>
+            <option value="provider">Service Provider</option>
+          </select>
+        </div>
+        <button type="submit">Register</button>
+      </form>
+      <p class="login-link">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </div>
   </div>
-</div>
 
   <footer class="footer">
     <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
     <div class="social-icons">
-      <a href="#"><img src="{% static 'images/facebook.svg' %} " alt="Facebook" /></a>
+      <a href="#"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
       <a href="#"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
       <a href="#"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
     </div>
   </footer>
+
+  <script>
+    function togglePassword() {
+      const pwd1 = document.getElementById("password");
+      const pwd2 = document.getElementById("confirm_password");
+      const type = pwd1.type === "password" ? "text" : "password";
+      pwd1.type = type;
+      pwd2.type = type;
+    }
+  </script>
 </body>
 </html>

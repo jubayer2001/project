@@ -49,3 +49,6 @@ def login(request):
 def logout_view(request):
     logout(request)
     return redirect('login')  # Make sure your login view is named 'login'
+
+def profile(request):
+    return render(request, 'users/profile.html')

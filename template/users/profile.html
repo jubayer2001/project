@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile - MomentsMaker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <span class="highlight">Moments</span>Maker
+    </div>
+    <nav>
+      <a href="{% url 'home' %}">Home</a>
+
+      <a href="#">Services</a>
+      <a href="#">Help & Support</a>
+      <a href="#">About Us</a>
+      <a href="{% url 'logout' %}" class="login">Logout</a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section class="profile-section">
+      <div class="profile-card">
+        <img src="{% static 'images/user.png' %}" alt="User Image" />
+        <div class="profile-info">
+          <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <p><strong>Role:</strong> {{ profile.role|title }}</p>
+          <p><strong>Location:</strong> {{ profile.location }}</p>
+          <p><strong>Bio:</strong> {{ profile.bio }}</p>
+
+          <div class="profile-buttons">
+            <a href="{% url 'edit_profile' %}" class="btn dark">Edit Profile</a>
+            <a href="{% url 'upload_photo' %}" class="btn light">Upload Photo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
+    <div class="social-icons">
+      <a href="#"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
+      <a href="#"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
+      <a href="#"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
+    </div>
+  </footer>
+
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

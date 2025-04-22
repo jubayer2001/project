@@ -19,11 +19,15 @@
 
           <form method="POST">
             {% csrf_token %}
-            <!-- Use type="email" for better validation -->
-            <input type="email" name="username" placeholder="Email" required />
-            <input type="password" name="password" placeholder="Password" required />
-            <!-- Add class 'btn.dark' to make it consistent with your design -->
-            <button type="submit" class="btn dark">Login</button>
+            <input type="text" name="username" placeholder="Email" required />
+
+            <!-- Password input with Show Password checkbox beside it -->
+            <div class="password-container">
+              <input type="password" name="password" placeholder="Password" id="password" required />
+              <input type="checkbox" id="show-password"> <label for="show-password">Show</label>
+            </div>
+
+            <button type="submit">Login</button>
           </form>
 
           <div class="register-link">
@@ -40,5 +44,16 @@
         <a href="#"><img src="{% static 'images/instagram.svg' %}" alt="Instagram"></a>
       </div>
     </footer>
+
+    <script>
+      document.getElementById('show-password').addEventListener('change', function() {
+        var passwordField = document.getElementById('password');
+        if (this.checked) {
+          passwordField.type = 'text';  // Show password
+        } else {
+          passwordField.type = 'password';  // Hide password
+        }
+      });
+    </script>
 </body>
 </html>

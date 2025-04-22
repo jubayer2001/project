@@ -58,8 +58,7 @@ label {
     color: #444;
 }
 
-/* Adjust both email and password input fields */
-input[type="email"],
+input[type="text"],
 input[type="password"] {
     width: 100%;
     padding: 12px;
@@ -70,13 +69,11 @@ input[type="password"] {
     box-sizing: border-box;
 }
 
-input[type="email"]:focus,
-input[type="password"]:focus {
+input:focus {
     border-color: #a43753;
     outline: none;
 }
 
-/* Button style */
 button {
     width: 100%;
     padding: 12px;
@@ -86,7 +83,6 @@ button {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    margin-top: 10px;
 }
 
 button:hover {
@@ -106,6 +102,17 @@ button:hover {
 
 .register-link a:hover {
     text-decoration: underline;
+}
+
+/* Show Password Section */
+.show-password-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.show-password-container input[type="checkbox"] {
+    margin-right: 10px;
 }
 
 .footer {

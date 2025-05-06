@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Service Providers - MomentsMaker</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- your main css -->
+
+</head>
+<body>
+
+ <header>
+    <div class="logo"><span>Moments</span>Maker</div>
+    <nav>
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'services' %}">Services</a>
+      <a href="{% url 'help' %}">Help & Support</a>
+      <a href="{% url 'about' %}">About Us</a>
+
+      <div class="profile-dropdown">
+  {% if user.is_authenticated %}
+    <span class="icon" id="profileIcon">{{ user.last_name }}</span>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="{% url 'profile' %}">Profile</a>
+      <a href="{% url 'cart' %}">My Cart</a>
+
+      <a href="{% url 'logout' %}">Logout</a>
+    </div>
+  {% else %}
+    <span class="icon" id="profileIcon">👤</span>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="{% url 'login' %}">Login</a>
+    </div>
+  {% endif %}
+</div>
+
+    </nav>
+  </header>
+
+<section class="search-results">
+  <h1 class="results-heading">
+    {{ service_type|title }}s in {{ location|title }}
+  </h1>
+
+  <div class="card-list">
+  {% for provider in providers %}
+    <a href="{% url 'provider_detail' provider.pk %}" class="provider-link">
+  <div class="provider-card">
+    <img src="{{ provider.image.url }}" alt="{{ provider.name }}">
+    <div class="provider-info">
+      <h2>{{ provider.name }}</h2>
+      <p>⭐️ {{ provider.rating }} Rating</p>
+      <p>💰 {{ provider.price }}</p>
+      <p>📍 {{ provider.get_location_display }}</p>
+      <p>Experience: {{ provider.experience }} Years</p>
+      <p class="short-desc">{{ provider.short_desc }}</p>
+    </div>
+  </div>
+      </a>
+  {% empty %}
+  <p class="no-results">No providers found matching your criteria</p>
+  {% endfor %}
+</div>
+</section>
+
+<footer class="footer">
+    <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
+    <div class="social-icons">
+      <a href="#"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
+      <a href="#"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
+      <a href="#"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
+    </div>
+  </footer>
+
+<script>
+    const profileIcon = document.getElementById('profileIcon');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    if (profileIcon) {
+      profileIcon.addEventListener('click', () => {
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      window.addEventListener('click', (e) => {
+        if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+          dropdownMenu.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

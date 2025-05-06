@@ -1,0 +1,84 @@
+
+
+.help-container {
+    background-color: #ffffff;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .help-container h1 {
+    color: #000000;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .faq {
+    background-color: #ffffff;
+    ;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  }
+
+  .faq-item {
+    margin-bottom: 20px;
+  }
+
+  .faq-item h3 {
+    color: #000000;
+    margin-bottom: 8px;
+  }
+
+  .faq-item p {
+    color: #000000;
+    line-height: 1.6;
+  }
+
+  .contact-box {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  }
+
+  .contact-box h2 {
+    margin-bottom: 10px;
+    color: #000000;
+  }
+
+  .contact-box p {
+    margin-bottom: 20px;
+    color: #000000;
+  }
+
+  .contact-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .contact-box input,
+  .contact-box textarea {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .contact-box button {
+    background-color:#a43753;
+    ;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .contact-box button:hover {
+    background-color:#5e323d;
+  }

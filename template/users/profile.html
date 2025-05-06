@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 {% load static %}
+{% load custom_filters %}
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile - MomentsMaker</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 </head>
-<body>
 
+<body>
   <!-- Header -->
   <header>
-    <div class="logo">
-      <span class="highlight">Moments</span>Maker
-    </div>
+    <div class="logo"><span>Moments</span>Maker</div>
     <nav>
       <a href="{% url 'home' %}">Home</a>
-
-      <a href="#">Services</a>
-      <a href="#">Help & Support</a>
-      <a href="#">About Us</a>
-      <a href="{% url 'logout' %}" class="login">Logout</a>
+      <a href="{% url 'services' %}">Services</a>
+      <a href="{% url 'help' %}">Help & Support</a>
+      <a href="{% url 'about' %}">About Us</a>
+      <div class="profile-dropdown">
+        {% if user.is_authenticated %}
+          <span class="icon" id="profileIcon">{{ user.last_name }}</span>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'cart' %}">My Cart</a>
+            <a href="{% url 'logout' %}">Logout</a>
+          </div>
+        {% else %}
+          <span class="icon" id="profileIcon">👤</span>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="{% url 'login' %}">Login</a>
+          </div>
+        {% endif %}
+      </div>
     </nav>
   </header>
 
@@ -29,18 +41,34 @@
   <main>
     <section class="profile-section">
       <div class="profile-card">
-        <img src="{% static 'images/user.png' %}" alt="User Image" />
         <div class="profile-info">
-          <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-          <p><strong>Email:</strong> {{ user.email }}</p>
-          <p><strong>Role:</strong> {{ profile.role|title }}</p>
-          <p><strong>Location:</strong> {{ profile.location }}</p>
-          <p><strong>Bio:</strong> {{ profile.bio }}</p>
+          <form method="POST" enctype="multipart/form-data" id="profile-form">
+            {% csrf_token %}
+            <h2>Profile</h2>
 
-          <div class="profile-buttons">
-            <a href="{% url 'edit_profile' %}" class="btn dark">Edit Profile</a>
-            <a href="{% url 'upload_photo' %}" class="btn light">Upload Photo</a>
-          </div>
+           <label for="id_first_name">First Name</label>
+             {{ form.first_name|add_class:"editable-field" }}
+
+               <label for="id_last_name">Last Name</label>
+                {{ form.last_name|add_class:"editable-field" }}
+
+               <label for="id_email">Email</label>
+                {{ form.email|add_class:"editable-field" }}  <!-- This is okay if the form already sets readonly -->
+
+                <label for="id_phone">Phone</label>
+                  {{ form.phone|add_class:"editable-field" }}
+
+                   <label for="id_location">Location</label>
+                       {{ form.location|add_class:"editable-field" }}
+
+                    <label for="id_role">Role</label>
+                       {{ form.role|add_class:"editable-field" }}  <!-- Need to disable this explicitly -->
+
+            <div class="profile-buttons">
+              <button type="button" class="btn dark" id="edit-btn">Edit Profile</button>
+              <button type="submit" class="btn dark" id="save-btn" style="display: none;">Save Changes</button>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -56,6 +84,45 @@
     </div>
   </footer>
 
-  <script src="{% static 'js/script.js' %}"></script>
+  <!-- JS -->
+  <script>
+    // Dropdown Menu Toggle
+    const profileIcon = document.getElementById('profileIcon');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    if (profileIcon) {
+      profileIcon.addEventListener('click', () => {
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      window.addEventListener('click', (e) => {
+        if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+          dropdownMenu.style.display = 'none';
+        }
+      });
+    }
+
+    // Enable Form Editing
+    document.addEventListener('DOMContentLoaded', () => {
+      const editBtn = document.getElementById('edit-btn');
+      const saveBtn = document.getElementById('save-btn');
+      const fields = document.querySelectorAll('.editable-field');
+
+      editBtn.addEventListener('click', () => {
+        fields.forEach(field => {
+          const name = field.name;
+
+          // Only make editable if not email or role
+          if (name !== 'email' && name !== 'role') {
+            field.removeAttribute('readonly');
+            field.removeAttribute('disabled');
+          }
+        });
+
+        editBtn.style.display = 'none';
+        saveBtn.style.display = 'inline-block';
+      });
+    });
+  </script>
 </body>
 </html>

@@ -1,189 +1,83 @@
-/* PROFILE PAGE SPECIFIC STYLES (won't affect index.html) */
-.profile-section {
-  min-height: 100vh;
-  background-color: #fff;
+.details-section {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-}
-
-.profile-card {
-  background-color: #a43753;
-  color: white;
-  max-width: 1200px;
-  width: 95%;
-  margin: 80px auto;
-  padding: 80px 60px;
-  border-radius: 32px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-  display: flex;
-  gap: 80px;
-  align-items: center;
   flex-wrap: wrap;
-}
-/* NEW RULE ADDED HERE */
-
-
-.profile-card img {
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 6px solid white;
+  padding: 60px 20px;
+  background: linear-gradient(to right, #fff 50%, #a43753 50%);
+  min-height: 100vh;
+  align-items: center;
+  gap: 60px;
 }
 
-.profile-info {
+.details-img {
   flex: 1;
-  font-size: 18px;
-  line-height: 1.6;
-}
-.profile-info h2 {
-  font-size: 42px;
-  margin-bottom: 30px;
-}
-
-.profile-info label {
-  display: block;
-  font-weight: bold;
-  margin-top: 10px;
-  margin-bottom: 5px;
-}
-
-.profile-info input {
-  width: 100%;
-  padding: 8px 12px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-.profile-info select {
-  width: 100%;
-  padding: 8px 12px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  background-color: white;
-  color: #333;
-}
-
-.profile-info select:disabled {
-  background-color: #f9f9f9;  /* Light background for clarity */
-  color: #555;                /* Normal dark text */
-  border: 1px solid #ccc;
-  cursor: not-allowed;
-  opacity: 1;                 /* Override browser's dimming */
-}
-
-
-.profile-info input:disabled {
-  background-color: #e0e0e0;
-  color: #555;
-  cursor: not-allowed;
-}
-
-
-.profile-photo {
   text-align: center;
 }
 
+.details-img img {
+  width: 1000px;
+  height: 600px;
+  border: 6px solid white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
 
-.profile-photo img {
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 5px solid white;
+.details-info {
+  flex: 1;
+  background-color: white;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.details-info h2 {
+  font-size: 36px;
   margin-bottom: 10px;
-}
-.profile-buttons {
-  margin-top: 40px;
-  display: flex;
-  gap: 24px;
+  color: #a43753;
 }
 
-.profile-buttons .btn {
-  padding: 14px 28px;
-  border-radius: 10px;
+.rating {
+  margin: 10px 0;
+}
+
+.rating span {
+  font-size: 22px;
+  color: gold;
+  margin-right: 2px;
+}
+
+.details-info p {
   font-size: 18px;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.description-box {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fafafa;
+  font-size: 16px;
+}
+
+.hire-btn {
+  margin-top: 30px;
+  padding: 14px 30px;
+  background-color: #a43753;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
 
-.profile-buttons .btn.dark {
-  background-color: black;
-  color: white;
-  border: none;
-}
-
-.profile-buttons .btn.light {
-  background-color: transparent;
-  color: white;
-  border: 2px solid white;
-}
-
-.profile-buttons .btn.dark:hover {
-  background-color: #333;
-}
-
-.profile-buttons .btn.light:hover {
-  background-color: white;
-  color: #a43753;
+.hire-btn:hover {
+  background-color: #872e45;
 }
 
 
-/* Footer Styles (specific to profile page) */
-.profile-footer {
-  text-align: center;
-  padding: 20px 10px;
-  background-color: #1c1c1c;
-  color: #fff;
-  font-size: 14px;
-}
-
-.profile-footer .social-icons {
-  margin-top: 10px;
-}
-
-.profile-footer .social-icons a {
-  margin: 0 10px;
-  display: inline-block;
-}
-
-.profile-footer .social-icons img {
-  width: 20px;
-  height: 20px;
-  filter: invert(1);
-  transition: transform 0.2s;
-}
-
-.profile-footer .social-icons img:hover {
-  transform: scale(1.1);
-}
-
-/* Responsive adjustments for profile page only */
-@media (max-width: 768px) {
-  .profile-card {
-    flex-direction: column;
-    padding: 40px;
-    text-align: center;
-    gap: 30px;
-  }
-
-  .profile-info h2 {
-    margin-bottom: 15px;
-  }
-
-  .profile-card img {
-    width: 180px;
-    height: 180px;
-  }
-}
-
-/* Existing index.html styles (unchanged) */
+/* index navbar html */
 * {
   box-sizing: border-box;
   margin: 0;

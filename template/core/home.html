@@ -12,10 +12,17 @@
   <header>
     <div class="logo"><span>Moments</span>Maker</div>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">Services</a>
-      <a href="#">Help & Support</a>
-      <a href="#">About Us</a>
+      <a href="{% url 'home' %}">Home</a>
+
+      {% if user.is_authenticated %}
+        <a href="{% url 'services' %}">Services</a>
+      {% else %}
+        <a href="{% url 'login' %}?next={% url 'services' %}">Services</a>
+      {% endif %}
+
+      <a href="{% url 'help' %}">Help & Support</a>
+      <a href="{% url 'about' %}">About Us</a>
+
       {% if user.is_authenticated %}
         <span class="login">{{ user.last_name }}</span>
         <a href="{% url 'logout' %}" class="login">Logout</a>

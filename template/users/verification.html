@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Verification | MomentsMaker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/verification.css' %} ">
+</head>
+<body>
+  <div class="verification-container">
+    <div class="logo">
+      <span class="highlight">Moments</span>Maker
+    </div>
+
+    <div class="verification-box">
+      <div id="otpFeedback" class="feedback-message"></div>
+
+      <div class="verification-icon">
+        <i class="fas fa-mobile-screen-button"></i>
+      </div>
+
+      <h2>OTP Verification</h2>
+
+      <p class="instruction-text">
+        We've sent a 6-digit code to <strong id="userEmail">user@example.com</strong>.
+        Enter the code below to verify your account.
+      </p>
+
+      <form id="otp-form" method="POST" action="{% url 'verification' %}">
+        {% csrf_token %}
+    <div class="otp-inputs">
+        <input type="text" maxlength="1" pattern="\d" inputmode="numeric" class="otp-digit" data-index="0" autofocus>
+        <input type="text" maxlength="1" pattern="\d" inputmode="numeric" class="otp-digit" data-index="1">
+        <input type="text" maxlength="1" pattern="\d" inputmode="numeric" class="otp-digit" data-index="2">
+        <input type="text" maxlength="1" pattern="\d" inputmode="numeric" class="otp-digit" data-index="3">
+        <input type="text" maxlength="1" pattern="\d" inputmode="numeric" class="otp-digit" data-index="4">
+        <input type="text" maxlength="1" pattern="\d" inputmode="numeric" class="otp-digit" data-index="5">
+    </div>
+
+    <button type="submit" class="btn dark" id="verify-btn">
+        <i class="fas fa-check-circle"></i> Verify
+    </button>
+   </form>
+
+
+      <div class="resend-section">
+        <p>Didn't receive the code?</p>
+        <button id="resend-btn" class="btn light" disabled>
+          <i class="fas fa-sync-alt"></i> Resend OTP
+        </button>
+      </div>
+
+      <div class="countdown">
+        <p>Request new OTP in <span id="countdown">60</span> seconds</p>
+      </div>
+
+      <div class="alternative-action">
+        <p>Change Your Email? <a href="register.html">Update number</a></p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
+    <div class="social-icons">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
+
+  <!-- Place the JavaScript code just before closing the body tag -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Set the email from sessionStorage
+        const verificationEmail = sessionStorage.getItem('verificationEmail') || 'user@example.com';
+        document.getElementById('userEmail').textContent = verificationEmail;
+
+        // OTP Input Handling
+        const otpDigits = document.querySelectorAll('.otp-digit');
+        const otpForm = document.getElementById('otp-form');
+        const verifyBtn = document.getElementById('verify-btn');
+        const feedbackEl = document.getElementById('otpFeedback');
+        const resendBtn = document.getElementById('resend-btn');
+        const countdownEl = document.getElementById('countdown');
+
+        // Auto-focus and navigation between OTP boxes
+        otpDigits.forEach((digit, index) => {
+            digit.addEventListener('input', (e) => {
+                if (e.target.value.length === 1) {
+                    if (index < otpDigits.length - 1) {
+                        otpDigits[index + 1].focus();
+                    } else {
+                        verifyBtn.focus();
+                    }
+                }
+            });
+
+            digit.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                    otpDigits[index - 1].focus();
+                }
+            });
+
+            // Allow pasting OTP
+            digit.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pasteData = e.clipboardData.getData('text').trim();
+                if (/^\d{6}$/.test(pasteData)) {
+                    pasteData.split('').forEach((char, i) => {
+                        if (otpDigits[i]) {
+                            otpDigits[i].value = char;
+                        }
+                    });
+                    otpDigits[5].focus();
+                }
+            });
+        });
+
+        // Countdown Timer
+        let timeLeft = 60;
+        let timer = setInterval(updateCountdown, 1000);
+
+        function updateCountdown() {
+            timeLeft--;
+            countdownEl.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                resendBtn.disabled = false;
+                document.querySelector('.countdown').style.display = 'none';
+            }
+        }
+
+        // Resend OTP Functionality
+        resendBtn.addEventListener('click', function () {
+            // Show loading state
+            feedbackEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending new OTP...';
+            feedbackEl.className = 'feedback-message warning';
+            feedbackEl.style.display = 'block';
+            resendBtn.disabled = true;
+
+            // Simulate API call for resend OTP (you can implement the actual API call if needed)
+            setTimeout(() => {
+                // Reset countdown
+                timeLeft = 60;
+                countdownEl.textContent = timeLeft;
+                document.querySelector('.countdown').style.display = 'block';
+                timer = setInterval(updateCountdown, 1000);
+
+                // Show success message
+                feedbackEl.innerHTML = '<i class="fas fa-check-circle"></i> New OTP sent successfully!';
+                feedbackEl.className = 'feedback-message success';
+
+                // Clear OTP inputs
+                otpDigits.forEach(digit => digit.value = '');
+                otpDigits[0].focus();
+            }, 1500);
+        });
+
+        // Form Submission (using POST request)
+        otpForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get OTP value
+            let otp = '';
+            otpDigits.forEach(digit => {
+                otp += digit.value;
+            });
+
+            // Send OTP for verification
+            fetch('{% url 'verification' %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                body: JSON.stringify({ otp: otp }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        feedbackEl.innerHTML = '<i class="fas fa-check-circle"></i> OTP verified successfully! Redirecting...';
+                        feedbackEl.className = 'feedback-message success';
+                        feedbackEl.style.display = 'block';
+                        setTimeout(() => {
+                            window.location.href = '/index/';  // Redirect to the homepage or desired page
+                        }, 1500);
+                    } else {
+                        feedbackEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Invalid OTP. Please try again.';
+                        feedbackEl.className = 'feedback-message error';
+                        feedbackEl.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    feedbackEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> An error occurred. Please try again later.';
+                    feedbackEl.className = 'feedback-message error';
+                    feedbackEl.style.display = 'block';
+                });
+        });
+    });
+  </script>
+</body>
+</html>

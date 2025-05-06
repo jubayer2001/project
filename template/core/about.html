@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us | MomentsMaker</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/about.css' %}">
+</head>
+<body>
+  <header>
+    <div class="logo"><span>Moments</span>Maker</div>
+    <nav>
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'services' %}">Services</a>
+      <a href="{% url 'help' %}">Help & Support</a>
+      <a href="{% url 'about' %}">About Us</a>
+
+      <div class="profile-dropdown">
+        {% if user.is_authenticated %}
+          <span class="icon" id="profileIcon">{{ user.last_name }}</span>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'cart' %}">My Cart</a>
+            <a href="{% url 'logout' %}">Logout</a>
+          </div>
+        {% else %}
+          <span class="icon" id="profileIcon">👤</span>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="{% url 'login' %}">Login</a>
+          </div>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+
+  <main class="about-container">
+    <section class="intro">
+      <h1>About MomentsMaker</h1>
+      <p>MomentsMaker is your one-stop platform for seamless event planning. From photographers and caterers to decorators and planners, we connect you with the best service providers tailored to your needs and budget.</p>
+    </section>
+
+    <section class="mission">
+      <h2>Our Mission</h2>
+      <p>We believe that every celebration deserves to be perfect. Our mission is to empower users to organize memorable events effortlessly by offering a trusted and easy-to-use digital platform.</p>
+    </section>
+
+    <section class="team">
+      <h2>Meet the Team</h2>
+      <div class="team-members">
+        <div class="member">
+          <img src="{% static 'images/jubayer.jpg' %}" alt="Team Member 1" />
+          <h3>Abdullah Al Jubayer</h3>
+          <p>CEO</p>
+        </div>
+        <div class="member">
+          <img src="{% static 'images/rehan.jpg' %}" alt="Team Member 2" />
+          <h3>Rehan Ahmed Mitul</h3>
+          <p>CTO</p>
+        </div>
+        <div class="member">
+          <img src="{% static 'images/shihab.jpg' %}" alt="Team Member 3" />
+          <h3>Md. Shihab Molla</h3>
+          <p>Operations Manager</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-cta">
+      <h2>Want to Collaborate or Join Us?</h2>
+      <p>We’re always looking to partner with passionate people and professionals. <a href="mailto:hello@momentsmaker.com">Contact us</a> to get involved.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
+    <div class="social-icons">
+      <a href="#"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
+      <a href="#"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
+      <a href="#"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
+    </div>
+  </footer>
+
+  <script>
+    const profileIcon = document.getElementById('profileIcon');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    profileIcon.addEventListener('click', () => {
+      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

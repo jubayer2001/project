@@ -13,6 +13,7 @@ SECRET_KEY = 'django-insecure-r(4s4&mbtq#8m-y&vhm=q%etfcwx0omtgg#pwm6i3po41#1m((
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+SESSION_COOKIE_AGE = 1800
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/services/'

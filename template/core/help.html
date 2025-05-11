@@ -7,6 +7,9 @@
   <title>Help & Support | MomentsMaker</title>
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <link rel="stylesheet" href="{% static 'css/help.css' %}">
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
 <body>
    <header>
@@ -23,6 +26,7 @@
     <div class="dropdown-menu" id="dropdownMenu">
       <a href="{% url 'profile' %}">Profile</a>
       <a href="{% url 'cart' %}">My Cart</a>
+       <a href="{% url 'events' %}">My Events</a>
 
       <a href="{% url 'logout' %}">Logout</a>
     </div>
@@ -37,51 +41,113 @@
     </nav>
   </header>
 
-  <main class="help-container">
-    <h1>Help & Support</h1>
-    <div class="faq">
-      <div class="faq-item">
-        <h3>How do I book a service provider?</h3>
-        <p>Go to the Services page, browse by category, and click "Find" to add to your cart. Proceed to checkout to confirm.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Can I cancel a booking?</h3>
-        <p>Yes, you can cancel any service up to 48 hours before your event date by going to your Profile > Your Events.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How do I get support?</h3>
-        <p>You can reach our support team via email at <a href="mailto:22201245@uap-bd.edu">22201245@uap-bd.edu</a> or call us at 01624253558.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Where can I view my bookings?</h3>
-        <p>Log into your account and go to "My Cart" under the profile menu to see your upcoming and past bookings.</p>
-      </div>
-    </div>
+    <main>
 
-    <div class="contact-box">
-      <h2>Still need help?</h2>
-      <p>Fill out the form below and we’ll get back to you shortly.</p>
-      <form method="post" action="{% url 'help' %}">
-        {% csrf_token %}
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="email" placeholder="Your Email" required />
-        <textarea name="message" placeholder="Describe your issue..." rows="5" required></textarea>
-        <button type="submit">Submit</button>
-      </form>
-      {% if submitted %}
-        <p style="color: green;">Thank you for contacting us! We’ll get back to you soon.</p>
-      {% endif %}
+    <div class="help-container">
+      <div class="help-grid">
+        <!-- FAQ Section -->
+        <section class="faq-section">
+          <h2>Frequently Asked Questions</h2>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>How do I book a service provider?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>Go to the Services page, browse by category, and click "Find" to add to your cart. Proceed to checkout to confirm your booking. You'll receive a confirmation email with all the details.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Can I cancel or modify a booking?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>Yes, you can cancel any service up to 48 hours before your event date by going to your Profile > Your Events. For modifications, please contact our support team at least 72 hours before the event.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>What payment methods do you accept?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>We accept all major credit/debit cards, mobile banking (bKash, Nagad), and bank transfers. All payments are securely processed through encrypted channels.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>How do I know my booking is confirmed?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>You'll receive an immediate email confirmation with your booking details. The service provider will also contact you within 24 hours to confirm arrangements.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>What if my service provider cancels?</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>In the rare event of cancellation by a provider, we'll immediately notify you and help you find a suitable replacement at the same price or issue a full refund.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section">
+          <h2>Contact Our Support Team</h2>
+          <p>Can't find what you're looking for? Send us a message and we'll get back to you within 24 hours.</p>
+
+         <form class="contact-form" method="POST" action="{% url 'help' %}">
+             {% csrf_token %}
+
+            {% if submitted %}
+                 <p class="success-message">We have received your email. Our support team will contact you soon.</p>
+              {% endif %}
+
+               <div class="form-group">
+                   <label for="name">Your Name</label>
+                   <input type="text" id="name" name="name" placeholder="Enter your name" required>
+               </div>
+
+               <div class="form-group">
+                <label for="email">Email Address</label>
+                      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                       </div>
+
+                <div class="form-group">
+                <label for="message">Your Message</label>
+                <textarea id="message" name="message" placeholder="Describe your issue in detail" required></textarea>
+                </div>
+
+                 <button type="submit" class="contact-btn">Send Message</button>
+</form>
+
+
+
+        </section>
+      </div>
     </div>
   </main>
 
-  <footer class="footer">
-    <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
-    <div class="social-icons">
-      <a href="#"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
-      <a href="#"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
-      <a href="#"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
-    </div>
-  </footer>
+   <footer class="footer">
+      <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/abdullah.al.jubayer.335106"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
+        <a href="https://x.com/AbdullahAl77285"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
+        <a href="https://www.instagram.com/_jubayer0_0/"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
+      </div>
+    </footer>
+
+
+
 
   <script>
     const profileIcon = document.getElementById('profileIcon');
@@ -96,6 +162,29 @@
         }
       });
     }
+
+
+      // FAQ Accordion functionality
+      const faqQuestions = document.querySelectorAll('.faq-question');
+
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+          const answer = question.nextElementSibling;
+          const isActive = question.classList.contains('active');
+
+          // Close all other answers
+          faqQuestions.forEach(q => {
+            if (q !== question) {
+              q.classList.remove('active');
+              q.nextElementSibling.classList.remove('show');
+            }
+          });
+
+          // Toggle current answer
+          question.classList.toggle('active');
+          answer.classList.toggle('show');
+        });
+      });
   </script>
 </body>
 </html>

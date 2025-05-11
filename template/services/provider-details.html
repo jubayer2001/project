@@ -5,12 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{{ provider.name }} | MomentsMaker</title>
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
   <link rel="stylesheet" href="{% static 'css/details.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-
-  <!-- Header/Navbar -->
   <header>
     <div class="logo"><span>Moments</span>Maker</div>
     <nav>
@@ -18,59 +18,144 @@
       <a href="{% url 'services' %}">Services</a>
       <a href="{% url 'help' %}">Help & Support</a>
       <a href="{% url 'about' %}">About Us</a>
-
       <div class="profile-dropdown">
-  {% if user.is_authenticated %}
-    <span class="icon" id="profileIcon">{{ user.last_name }}</span>
-    <div class="dropdown-menu" id="dropdownMenu">
-      <a href="{% url 'profile' %}">Profile</a>
-      <a href="{% url 'cart' %}">My Cart</a>
-
-      <a href="{% url 'logout' %}">Logout</a>
-    </div>
-  {% else %}
-    <span class="icon" id="profileIcon">👤</span>
-    <div class="dropdown-menu" id="dropdownMenu">
-      <a href="{% url 'login' %}">Login</a>
-    </div>
-  {% endif %}
-</div>
-
+        {% if user.is_authenticated %}
+          <span class="icon" id="profileIcon">{{ user.last_name }}</span>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'cart' %}">My Cart</a>
+             <a href="{% url 'events' %}">My Events</a>
+            <a href="{% url 'logout' %}">Logout</a>
+          </div>
+        {% else %}
+          <span class="icon" id="profileIcon">👤</span>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="{% url 'login' %}">Login</a>
+          </div>
+        {% endif %}
+      </div>
     </nav>
   </header>
 
-  <section class="details-section">
-    <div class="details-img">
-      <img src="{{ provider.image.url }}" alt="{{ provider.name }}" />
-    </div>
-    <div class="details-info">
-      <h2>{{ provider.name }}</h2>
-      <div class="rating">
-        <span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span>
+  <main>
+    <section class="provider-hero">
+      <div class="container">
+        <div class="provider-header">
+          <div class="provider-image">
+            <img src="{{ provider.image.url }}" alt="{{ provider.name }}">
+            {% if provider.is_verified %}
+            <div class="verified-badge">
+              <i class="fas fa-check-circle"></i>
+              <span>Verified</span>
+            </div>
+            {% endif %}
+          </div>
+          <div class="provider-meta">
+            <h1>{{ provider.name }}</h1>
+            <div class="rating">
+              <div class="stars">
+                {% for i in "12345" %}
+                  {% if forloop.counter <= provider.rating|floatformat:0 %}
+                    <i class="fas fa-star"></i>
+                  {% elif forloop.counter == provider.rating|floatformat:0|add:"1" and provider.rating|floatformat:1|stringformat:"s"|slice:"-1" == "5" %}
+                    <i class="fas fa-star-half-alt"></i>
+                  {% else %}
+                    <i class="far fa-star"></i>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <span class="rating-text">{{ provider.rating }} ({{ provider.review_count }} reviews)</span>
+            </div>
+            <div class="specialization">
+              <i class="fas fa-camera"></i>
+              <span>{{ provider.get_service_type_display }}</span>
+            </div>
+            <div class="location">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>{{ provider.get_location_display }}</span>
+            </div>
+            <div class="meta-grid">
+              <div class="meta-item">
+                <i class="fas fa-clock"></i>
+                <span>{{ provider.experience }} Years Experience</span>
+              </div>
+              <div class="meta-item">
+                <i class="fas fa-calendar-check"></i>
+                <span>{{ provider.events_completed }} Events Completed</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p><strong>Service Type:</strong> {{ provider.get_service_type_display }}</p>
-      <p><strong>Location:</strong> {{ provider.get_location_display }}</p>
-      <p><strong>Charge:</strong> ৳{{ provider.price }}</p>
-      <p><strong>Experience:</strong> {{ provider.experience }} Years</p>
-      <p><strong>Available Dates:</strong> {{ provider.available_dates|join:", " }}</p>
+    </section>
 
-      <div class="description-box">
-        {{ provider.short_desc }}
+    <section class="provider-details">
+      <div class="container">
+        <div class="details-grid">
+          <div class="main-content">
+            <div class="about-section">
+              <h2>About Me</h2>
+              <p>{{ provider.short_desc }}</p>
+            </div>
+
+            <div class="services-section">
+              <h2>Services Offered</h2>
+              <ul class="services-list">
+                {% for service in provider.services_offered.all %}
+                  <li><i class="fas fa-check-circle"></i><span>{{ service.name }}</span></li>
+                {% empty %}
+                  <li>No services listed yet.</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+
+          <div class="sidebar">
+            <div class="pricing-card">
+              <h3>Pricing</h3>
+              <div class="price">৳{{ provider.price }} <span>/ {{ provider.price_unit }}</span></div>
+              <ul class="package-features">
+                {% for feature in provider.package_features.all %}
+                  <li><i class="fas fa-check"></i>{{ feature.name }}</li>
+                {% empty %}
+                  <li>No package details available.</li>
+                {% endfor %}
+              </ul>
+              <a href="{% url 'add_to_cart' provider.id %}" class="btn dark hire-btn">
+                <i class="fas fa-calendar-check"></i> Hire Now
+              </a>
+
+            </div>
+
+            <div class="quick-info">
+              <h3>Quick Info</h3>
+              <div class="info-item">
+                <i class="fas fa-clock"></i><span><strong>Experience:</strong> {{ provider.experience }} years</span>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-language"></i><span><strong>Languages:</strong> {{ provider.languages }}</span>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-car"></i><span><strong>Travel:</strong> {{ provider.travel_info }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <a href="{% url 'add_to_cart' provider.id %}" class="btn">Hire Now</a>
-    </div>
-  </section>
+    </section>
 
-  <!-- Footer -->
 
    <footer class="footer">
-    <p>© 2025 MomentsMaker. All Rights Reserved.</p>
-    <div class="social-icons">
-      <a href="#"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
-      <a href="#"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
-      <a href="#"><img src="{% static 'images/tiktok.svg' %}" alt="TikTok" /></a>
-    </div>
-  </footer>
+      <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/abdullah.al.jubayer.335106"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
+        <a href="https://x.com/AbdullahAl77285"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
+        <a href="https://www.instagram.com/_jubayer0_0/"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
+      </div>
+    </footer>
+
+    </main>
+
   <script>
     const profileIcon = document.getElementById('profileIcon');
     const dropdownMenu = document.getElementById('dropdownMenu');
@@ -86,36 +171,6 @@
         }
       });
     }
-    const profileIcon = document.getElementById('profileIcon');
-    const dropdownMenu = document.getElementById('dropdownMenu');
-    const authLink = document.getElementById('authLink');
-
-    // Simulate login state (use real auth logic here)
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
-    // Update auth link text and behavior
-    if (isLoggedIn) {
-      authLink.textContent = 'Logout';
-      authLink.href = 'login.html';
-      authLink.addEventListener('click', () => {
-        localStorage.setItem('isLoggedIn', 'false');
-        window.location.reload(); // or redirect to homepage
-      });
-    } else {
-      authLink.textContent = 'Login';
-      authLink.href = 'login.html';
-    }
-
-    profileIcon.addEventListener('click', () => {
-      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-    });
-
-    window.addEventListener('click', (e) => {
-      if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
-        dropdownMenu.style.display = 'none';
-      }
-    });
   </script>
-
 </body>
 </html>

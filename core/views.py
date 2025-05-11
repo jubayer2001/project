@@ -8,6 +8,9 @@ from django.shortcuts import render
 from django.core.mail import send_mail
 from django.conf import settings
 
+from django.core.mail import send_mail
+from django.conf import settings
+
 def help_page(request):
     submitted = False
     if request.method == "POST":
@@ -15,12 +18,22 @@ def help_page(request):
         email = request.POST.get("email")
         message = request.POST.get("message")
 
-        # Send email to support (you can later replace this with DB save if needed)
+        # Enhanced message body
+        full_message = f"""
+        You have received a new support request from MomentsMaker:
+
+        Name: {name}
+        Email: {email}
+
+        Message:
+        {message}
+        """
+
         send_mail(
-            f"Support Request from {name}",
-            message,
-            email,
-            ['22201245@uap-bd.edu'],  # Receiver
+            subject=f"Support Request from {name}",
+            message=full_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,  # Safe default sender
+            recipient_list=['mdmohhemedabdullah@gmail.com'],
             fail_silently=False,
         )
         submitted = True

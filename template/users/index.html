@@ -8,6 +8,7 @@
   <title>MomentsMaker</title>
   <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
   <header>
@@ -24,6 +25,7 @@
     <div class="dropdown-menu" id="dropdownMenu">
       <a href="{% url 'profile' %}">Profile</a>
       <a href="{% url 'cart' %}">My Cart</a>
+       <a href="{% url 'events' %}">My Events</a>
 
       <a href="{% url 'logout' %}">Logout</a>
     </div>
@@ -38,69 +40,245 @@
     </nav>
   </header>
 
-  <main>
-    <!-- Hero section -->
-    <section class="hero">
-      <div class="hero-inner">
-        <div class="left">
-          <h1>WHAT DO YOU PLAN?<br>WE WILL LEND YOU A HAND</h1>
-          <p>Plan a satisfying and unforgettable event</p>
-          <div class="buttons">
-            <button class="btn dark">Get Started</button>
-            <button class="btn light">Learn More</button>
+   <main>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="left">
+      <h1>WHAT DO YOU PLAN? WE WILL LEND YOU A HAND </h1>
+      <p class="subtitle">From intimate gatherings to grand celebrations - we've got every detail covered</p>
+      <div class="buttons">
+        <button class="btn dark">
+          <a class="t-btn" href="{% url 'services' %}"><i class="fas fa-calendar-plus"></i> Plan Your Event</a>
+        </button>
+        <button class="btn light">
+          <a class="t-btn" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><i class="fas fa-play-circle"></i> Watch How It Works</a>
+        </button>
+      </div>
+      <div class="trust-badges">
+        <div class="trust-item">
+          <i class="fas fa-check-circle"></i>
+          <span>5000+ Successful Events</span>
+        </div>
+        <div class="trust-item">
+          <i class="fas fa-star"></i>
+          <span>98% Satisfaction Rate</span>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="slideshow">
+        <div class="slide active">
+          <img src="{% static 'images/event1.jpg' %}" alt="Wedding Event">
+          <div class="slide-caption">
+            <h3>Wedding Planning</h3>
+            <p>Your perfect day, perfectly planned</p>
           </div>
         </div>
-        <div class="right">
-          <img src="{% static 'images/event.jpg' %}" alt="Event" />
+        <div class="slide">
+          <img src="{% static 'images/event2.jpg' %}" alt="Corporate Event">
+          <div class="slide-caption">
+            <h3>Corporate Events</h3>
+            <p>Impress your clients and colleagues</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="{% static 'images/event3.jpg' %}" alt="Birthday Party">
+          <div class="slide-caption">
+            <h3>Birthday Celebrations</h3>
+            <p>Make every year unforgettable</p>
+          </div>
         </div>
       </div>
-    </section>
-
-    <!-- Services section -->
-    <section class="services">
-      <h2>SERVICES</h2>
-      <div class="service-list">
-        <div class="service-item">
-          <img src="{% static 'images/caterer.png' %}" alt="Caterer"/>
-          <p>Caterer</p>
+      <div class="slideshow-controls">
+        <button class="slide-btn prev"><i class="fas fa-chevron-left"></i></button>
+        <div class="dots">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
         </div>
-        <div class="service-item">
-          <img src="{% static 'images/decorator.png' %}" alt="Decorator"/>
-          <p>Decorator</p>
-        </div>
-        <div class="service-item">
-          <img src="{% static 'images/photographer.png' %}" alt="Photographer"/>
-          <p>Photographer</p>
-        </div>
+        <button class="slide-btn next"><i class="fas fa-chevron-right"></i></button>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <!-- Footer -->
+<section class="services">
+  <h2>SERVICES</h2>
+  <div class="service-list">
+    <div class="service-item">
+      <img src="{% static 'images/caterer.png' %}" alt="Caterer"/>
+      <p>Caterer</p>
+    </div>
+    <div class="service-item">
+      <img src="{% static 'images/decorator.png' %}" alt="Decorator"/>
+      <p>Decorator</p>
+    </div>
+    <div class="service-item">
+      <img src="{% static 'images/photographer.png' %}" alt="Photographer"/>
+      <p>Photographer</p>
+    </div>
+  </div>
+</section>
+
+ <!-- Footer -->
     <footer class="footer">
       <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
       <div class="social-icons">
-        <a href="#"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
-        <a href="#"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
-        <a href="#"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
+        <a href="https://www.facebook.com/abdullah.al.jubayer.335106"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
+        <a href="https://x.com/AbdullahAl77285"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
+        <a href="https://www.instagram.com/_jubayer0_0/"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
       </div>
     </footer>
-  </main>
 
-  <script>
-    const profileIcon = document.getElementById('profileIcon');
-    const dropdownMenu = document.getElementById('dropdownMenu');
 
-    if (profileIcon) {
-      profileIcon.addEventListener('click', () => {
-        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-      });
+</main>
 
-      window.addEventListener('click', (e) => {
-        if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
-          dropdownMenu.style.display = 'none';
-        }
-      });
+
+ <script>
+document.addEventListener('DOMContentLoaded', () => {
+  // --- LOGIN/LOGOUT UI ---
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const loginButton = document.getElementById('loginButton');
+  const profileDropdown = document.getElementById('profileDropdown');
+  const logoutButton = document.getElementById('logoutButton');
+  const authLink = document.getElementById('authLink');
+  const profileIcon = document.getElementById('profileIcon');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+
+  function updateAuthUI() {
+    if (isLoggedIn) {
+      if (loginButton) loginButton.style.display = 'none';
+      if (profileDropdown) profileDropdown.style.display = 'flex';
+      if (authLink) {
+        authLink.textContent = 'Logout';
+        authLink.href = '#';
+        authLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.setItem('isLoggedIn', 'false');
+          window.location.href = 'index.html';
+        });
+      }
+      if (logoutButton) {
+        logoutButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.setItem('isLoggedIn', 'false');
+          window.location.href = 'index.html';
+        });
+      }
+    } else {
+      if (loginButton) loginButton.style.display = 'block';
+      if (profileDropdown) profileDropdown.style.display = 'none';
+      if (authLink) {
+        authLink.textContent = 'Login';
+        authLink.href = 'login.html';
+      }
     }
-  </script>
+  }
+  updateAuthUI();
+
+  // --- PROFILE DROPDOWN TOGGLE ---
+  if (profileIcon && dropdownMenu) {
+    profileIcon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    });
+    window.addEventListener('click', (e) => {
+      if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.style.display = 'none';
+      }
+    });
+  }
+
+  // --- SLIDESHOW ---
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+  const totalSlides = slides.length;
+
+  function showSlide(index) {
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+
+    currentSlide = (index + totalSlides) % totalSlides;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+  }
+
+  let slideInterval = setInterval(() => {
+    showSlide(currentSlide + 1);
+  }, 5000);
+
+  const nextButton = document.querySelector('.next');
+  const prevButton = document.querySelector('.prev');
+
+  if (nextButton) {
+    nextButton.addEventListener('click', () => {
+      clearInterval(slideInterval);
+      showSlide(currentSlide + 1);
+      slideInterval = setInterval(() => {
+        showSlide(currentSlide + 1);
+      }, 5000);
+    });
+  }
+
+  if (prevButton) {
+    prevButton.addEventListener('click', () => {
+      clearInterval(slideInterval);
+      showSlide(currentSlide - 1);
+      slideInterval = setInterval(() => {
+        showSlide(currentSlide + 1);
+      }, 5000);
+    });
+  }
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      clearInterval(slideInterval);
+      showSlide(index);
+      slideInterval = setInterval(() => {
+        showSlide(currentSlide + 1);
+      }, 2000);
+    });
+  });
+
+  // --- SCROLL-TRIGGERED ANIMATIONS ---
+  const animateOnScroll = () => {
+    const serviceItems = document.querySelectorAll('.service-item');
+    const testimonialCards = document.querySelectorAll('.testimonial-card');
+    const triggerOffset = window.innerHeight / 1.2;
+
+    serviceItems.forEach((item, index) => {
+      const itemTop = item.getBoundingClientRect().top;
+      if (itemTop < triggerOffset) {
+        item.style.opacity = '1';
+        item.style.transform = 'translateY(0)';
+        item.style.transitionDelay = `${index * 0.1}s`;
+      }
+    });
+
+    testimonialCards.forEach((card, index) => {
+      const cardTop = card.getBoundingClientRect().top;
+      if (cardTop < triggerOffset) {
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+        card.style.transitionDelay = `${index * 0.1}s`;
+      }
+    });
+  };
+
+  animateOnScroll();
+  window.addEventListener('scroll', animateOnScroll);
+
+  // --- NAV ACTIVE LINK HIGHLIGHT ---
+  const currentPage = window.location.pathname.split('/').pop();
+  const navLinks = document.querySelectorAll('nav a');
+
+  navLinks.forEach(link => {
+    if (link.getAttribute('href') === currentPage) {
+      link.classList.add('active');
+    }
+  });
+});
+</script>
 </body>
 </html>

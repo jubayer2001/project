@@ -22,7 +22,9 @@
           <span class="icon" id="profileIcon">{{ user.last_name }}</span>
           <div class="dropdown-menu" id="dropdownMenu">
             <a href="{% url 'profile' %}">Profile</a>
+
             <a href="{% url 'cart' %}">My Cart</a>
+             <a href="{% url 'events' %}">My Events</a>
             <a href="{% url 'logout' %}">Logout</a>
           </div>
         {% else %}
@@ -69,18 +71,20 @@
 
     <section class="contact-cta">
       <h2>Want to Collaborate or Join Us?</h2>
-      <p>We’re always looking to partner with passionate people and professionals. <a href="mailto:hello@momentsmaker.com">Contact us</a> to get involved.</p>
+      <p>We’re always looking to partner with passionate people and professionals. <a href="mailto:mdmohhmedabdullah@gmail.com">Contact us</a> to get involved.</p>
     </section>
-  </main>
 
-  <footer class="footer">
-    <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
-    <div class="social-icons">
-      <a href="#"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
-      <a href="#"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
-      <a href="#"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
-    </div>
-  </footer>
+</main>
+   <footer class="footer">
+      <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/abdullah.al.jubayer.335106"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
+        <a href="https://x.com/AbdullahAl77285"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
+        <a href="https://www.instagram.com/_jubayer0_0/"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
+      </div>
+    </footer>
+
+
 
   <script>
     const profileIcon = document.getElementById('profileIcon');

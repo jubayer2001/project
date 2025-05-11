@@ -7,6 +7,7 @@
   <title>Services - MomentsMaker</title>
   <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
    <header>
@@ -23,6 +24,7 @@
     <div class="dropdown-menu" id="dropdownMenu">
       <a href="{% url 'profile' %}">Profile</a>
       <a href="{% url 'cart' %}">My Cart</a>
+       <a href="{% url 'events' %}">My Events</a>
 
       <a href="{% url 'logout' %}">Logout</a>
     </div>
@@ -87,16 +89,19 @@
         </div>
       </div>
     </section>
-  </main>
+
 
   <footer class="footer">
-    <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
-    <div class="social-icons">
-      <a href="#"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
-      <a href="#"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
-      <a href="#"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
-    </div>
-  </footer>
+      <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/abdullah.al.jubayer.335106"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
+        <a href="https://x.com/AbdullahAl77285"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
+        <a href="https://www.instagram.com/_jubayer0_0/"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
+      </div>
+    </footer>
+
+   </main>
+
 
   <script>
     const profileIcon = document.getElementById('profileIcon');

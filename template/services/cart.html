@@ -25,6 +25,7 @@
     <div class="dropdown-menu" id="dropdownMenu">
       <a href="{% url 'profile' %}">Profile</a>
       <a href="{% url 'cart' %}">My Cart</a>
+         <a href="{% url 'events' %}">My Events</a>
 
       <a href="{% url 'logout' %}">Logout</a>
     </div>
@@ -61,63 +62,102 @@
     <a href="{% url 'services' %}">
       <button class="btn">Find More</button>
     </a>
-    <button class="btn" disabled>Checkout</button>
+   {% if providers %}
+  <button class="btn" id="checkoutBtn">Checkout</button>
+{% else %}
+  <button class="btn" disabled>Checkout</button>
+{% endif %}
   </div>
   </div>
-</main>
+
+
+   <div id="checkoutModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close-btn" id="closeModal">&times;</span>
+    <h2>Checkout</h2>
+    <form method="POST" action="{% url 'create_event' %}">
+      {% csrf_token %}
+      <label for="event_name">Event Name</label>
+      <input type="text" name="event_name" required>
+
+      <label for="event_location">Location</label>
+      <input type="text" name="event_location" required>
+
+      <button type="submit">Checkout & Create Event</button>
+    </form>
+  </div>
+</div>
+
+ </main>
 
   <footer class="footer">
-    <p>© 2025 MomentsMaker. All Rights Reserved.</p>
-    <div class="social-icons">
-      <a href="#"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
-      <a href="#"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
-      <a href="#"><img src="{% static 'images/tiktok.svg' %}" alt="TikTok" /></a>
+      <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/abdullah.al.jubayer.335106"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
+        <a href="https://x.com/AbdullahAl77285"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
+        <a href="https://www.instagram.com/_jubayer0_0/"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
+      </div>
+    </footer>
+
     </div>
-  </footer>
+
+
+
   <script>
-      const profileIcon = document.getElementById('profileIcon');
-    const dropdownMenu = document.getElementById('dropdownMenu');
 
-    if (profileIcon) {
-      profileIcon.addEventListener('click', () => {
-        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-      });
+   const profileIcon = document.getElementById('profileIcon');
+const dropdownMenu = document.getElementById('dropdownMenu');
+const authLink = document.getElementById('authLink');
 
-      window.addEventListener('click', (e) => {
-        if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
-          dropdownMenu.style.display = 'none';
-        }
-      });
-    }
-    const profileIcon = document.getElementById('profileIcon');
-    const dropdownMenu = document.getElementById('dropdownMenu');
-    const authLink = document.getElementById('authLink');
+// Only run authLink logic if the element exists
+if (authLink) {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-    // Simulate login state (use real auth logic here)
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
-    // Update auth link text and behavior
-    if (isLoggedIn) {
-      authLink.textContent = 'Logout';
-      authLink.href = 'login.html';
-      authLink.addEventListener('click', () => {
-        localStorage.setItem('isLoggedIn', 'false');
-        window.location.reload(); // or redirect to homepage
-      });
-    } else {
-      authLink.textContent = 'Login';
-      authLink.href = 'login.html';
-    }
-
-    profileIcon.addEventListener('click', () => {
-      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+  if (isLoggedIn) {
+    authLink.textContent = 'Logout';
+    authLink.href = 'login.html';
+    authLink.addEventListener('click', () => {
+      localStorage.setItem('isLoggedIn', 'false');
+      window.location.reload(); // or redirect to homepage
     });
+  } else {
+    authLink.textContent = 'Login';
+    authLink.href = 'login.html';
+  }
+}
 
-    window.addEventListener('click', (e) => {
-      if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
-        dropdownMenu.style.display = 'none';
-      }
-    });
+// Only run dropdown logic if both elements exist
+if (profileIcon && dropdownMenu) {
+  profileIcon.addEventListener('click', (e) => {
+    e.stopPropagation(); // prevent window click listener from closing it immediately
+    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+  });
+
+  window.addEventListener('click', (e) => {
+    if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+      dropdownMenu.style.display = 'none';
+    }
+  });
+}
+
+  const checkoutBtn = document.getElementById('checkoutBtn');
+const modal = document.getElementById('checkoutModal');
+const closeModal = document.getElementById('closeModal');
+
+checkoutBtn.addEventListener('click', () => {
+  modal.style.display = 'block';
+});
+
+closeModal.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
   </script>
 
 

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Events | MomentsMaker</title>
+
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/cart.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/event.css' %}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="logo"><span>Moments</span>Maker</div>
+    <nav>
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'services' %}">Services</a>
+      <a href="{% url 'help' %}">Help & Support</a>
+      <a href="{% url 'about' %}">About Us</a>
+
+      <div class="profile-dropdown">
+        {% if user.is_authenticated %}
+          <span class="icon" id="profileIcon">{{ user.last_name }}</span>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'cart' %}">My Cart</a>
+            <a href="{% url 'events' %}">My Events</a>
+            <a href="{% url 'logout' %}">Logout</a>
+          </div>
+        {% else %}
+          <span class="icon" id="profileIcon">👤</span>
+          <div class="dropdown-menu" id="dropdownMenu">
+            <a href="{% url 'login' %}">Login</a>
+          </div>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="events-hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>Your Event Journey</h1>
+        <p>Relive your special moments and manage upcoming events</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ total_events }}</span>
+            <span class="stat-label">Total Events</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ upcoming_events }}</span>
+            <span class="stat-label">Upcoming</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ avg_rating|floatformat:1 }}</span>
+            <span class="stat-label">Avg. Rating</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="events-container">
+      <div class="filter-controls">
+        <div class="filter-group">
+        <form id="filter-form" method="get">
+               <select id="event-type" name="event_type" onchange="document.getElementById('filter-form').submit();" class="dropdown">
+             <option value="">Filter by Event Type</option>
+                <option value="wedding" {% if selected_event_type == "wedding" %}selected{% endif %}>Wedding</option>
+                 <option value="birthday" {% if selected_event_type == "birthday" %}selected{% endif %}>Birthday</option>
+                 <option value="corporate" {% if selected_event_type == "corporate" %}selected{% endif %}>Corporate Event</option>
+                  <option value="anniversary" {% if selected_event_type == "anniversary" %}selected{% endif %}>Anniversary</option>
+                 <option value="party" {% if selected_event_type == "party" %}selected{% endif %}>Party</option>
+                   </select>
+
+                 <select name="sort_by" onchange="document.getElementById('filter-form').submit();" class="dropdown">
+              <option value="">Sort by</option>
+               <option value="date" {% if selected_sort_by == "date" %}selected{% endif %}>Event Date</option>
+                <option value="rating" {% if selected_sort_by == "rating" %}selected{% endif %}>Rating</option>
+                </select>
+                </form>
+        </div>
+        <button class="btn dark" id="addEventBtn">
+          <i class="fas fa-plus"></i> Add New Event
+        </button>
+      </div>
+
+      <div class="events-grid">
+        {% for event in events %}
+          <div class="event-card">
+            <div class="event-header">
+              <span class="event-type">{{ event.name }}</span>
+              <span class="event-date">{{ event.date_created|date:"M d, Y" }}</span>
+            </div>
+            <div class="event-body">
+              <h3 class="event-title">{{ event.name }}</h3>
+              <p class="event-location"><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
+
+              <div class="service-providers">
+                <h4>Service Providers:</h4>
+                <div class="providers-grid">
+                  {% for provider in event.services.all %}
+                    <div class="provider">
+                      <img src="{{ provider.image.url }}" alt="{{ provider.name }}">
+                      <span>{{ provider.name }}</span>
+                      <div class="star-rating" style="--rating: {{ provider.rating|default:4.5 }};">
+                        <div class="stars"></div>
+                        <span class="rating-value">{{ provider.rating|default:"4.5" }}</span>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% empty %}
+          <p>No events found.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+      <footer class="footer">
+      <p>&copy; 2025 MomentsMaker. All rights reserved.</p>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/abdullah.al.jubayer.335106"><img src="{% static 'images/facebook.svg' %}" alt="Facebook" /></a>
+        <a href="https://x.com/AbdullahAl77285"><img src="{% static 'images/twitter.svg' %}" alt="Twitter" /></a>
+        <a href="https://www.instagram.com/_jubayer0_0/"><img src="{% static 'images/instagram.svg' %}" alt="Instagram" /></a>
+      </div>
+    </footer>
+
+
+  </main>
+
+  <script>
+  const profileIcon = document.getElementById('profileIcon');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  const authLink = document.getElementById('authLink');
+
+  if (authLink) {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    if (isLoggedIn) {
+      authLink.textContent = 'Logout';
+      authLink.href = 'login.html';
+      authLink.addEventListener('click', () => {
+        localStorage.setItem('isLoggedIn', 'false');
+        window.location.reload();
+      });
+    } else {
+      authLink.textContent = 'Login';
+      authLink.href = 'login.html';
+    }
+  }
+
+  if (profileIcon && dropdownMenu) {
+    profileIcon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (!profileIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.style.display = 'none';
+      }
+    });
+  }
+
+  // Only run filter/sort JS if IDs exist
+  const eventTypeFilter = document.getElementById('event-type');
+  const sortByFilter = document.getElementById('sort-by');
+  const eventCards = document.querySelectorAll('.event-card');
+
+  if (eventTypeFilter && sortByFilter) {
+    function filterAndSortEvents() {
+      const typeValue = eventTypeFilter.value;
+      const sortValue = sortByFilter.value;
+
+      eventCards.forEach(card => {
+        const cardType = card.querySelector('.event-type').className.includes(typeValue) || typeValue === 'all';
+        card.style.display = cardType ? 'block' : 'none';
+      });
+
+      const visibleCards = Array.from(eventCards).filter(card => card.style.display !== 'none');
+
+      visibleCards.sort((a, b) => {
+        const dateA = new Date(a.querySelector('.event-date').textContent);
+        const dateB = new Date(b.querySelector('.event-date').textContent);
+        const typeA = a.querySelector('.event-type').textContent;
+        const typeB = b.querySelector('.event-type').textContent;
+
+        if (sortValue === 'newest') return dateB - dateA;
+        if (sortValue === 'oldest') return dateA - dateB;
+        if (sortValue === 'type') return typeA.localeCompare(typeB);
+        return 0;
+      });
+
+      const eventsGrid = document.querySelector('.events-grid');
+      eventsGrid.innerHTML = '';
+      visibleCards.forEach(card => eventsGrid.appendChild(card));
+    }
+
+    eventTypeFilter.addEventListener('change', filterAndSortEvents);
+    sortByFilter.addEventListener('change', filterAndSortEvents);
+  }
+
+  //  Make sure this always works
+  document.getElementById('addEventBtn').addEventListener('click', () => {
+    window.location.href = "{% url 'services' %}";
+  });
+</script>
+
+</body>
+</html>

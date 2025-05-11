@@ -45,6 +45,8 @@ urlpatterns = [
     path('cart/', s_views.cart, name='cart'),
     path('add-to-cart/<int:pk>/', s_views.add_to_cart, name='add_to_cart'),
     path('remove-from-cart/<int:pk>/', s_views.remove_from_cart, name='remove_from_cart'),
+    path('create-event/', s_views.create_event, name='create_event'),
+    path('events/', s_views.events_page, name='events'),
 
 
 ]  + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
